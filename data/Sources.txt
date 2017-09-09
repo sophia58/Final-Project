@@ -1,0 +1,13 @@
+https://www.census.gov/geo/maps-data/data/tiger-data.html
+2007 - 2011 Block Group Data
+
+https://www.ffiec.gov/census/report.aspx?year=2017&state=48&msa=&county=201&tract=&report=income
+
+
+https://www.census.gov/cgi-bin/geo/shapefiles/index.php?year=2016&layergroup=Census+Tracts
+
+
+https://www.ffiec.gov/census/report.aspx?year=2017&state=48&msa=&county=201&tract=&report=income
+
+https://www2.census.gov/geo/tiger/TIGER2016/COUNTY/
+tEXAS COUNTY LINES
