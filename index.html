@@ -25,57 +25,85 @@
 
 <body>
 
-
-    <div id="map"></div>
-
-    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
-
-    <!--Create CARTOCSS rules to style map as a script then reference within source object    -->
-
-    <script type="cartocss/html" id="tract-styles">
-        #layer { polygon-fill: ramp([income2017], (#ffffb2, #fecc5c, #fd8d3c, #f03b20, #bd0026), quantiles); line-width: 1; line-color: #FFF; line-opacity: 0.5; }
-    </script>
-
-
-    <script type="cartocss/html" id="land-styles">
-
-        #na_land_clipped_1['mapnik::geometry_type'=1] { marker-width: 7; marker-fill: #FFB927; marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; } #na_land_clipped_1['mapnik::geometry_type'=2] { line-color: #3EBCAE; line-width: 1.5; line-opacity: 1; } #na_land_clipped_1['mapnik::geometry_type'=3] { polygon-fill: #374C70; polygon-opacity: 0.9; polygon-gamma: 0.5; line-color: #FFF; line-width: 1; line-opacity: 0.5; line-comp-op: soft-light; }
-    </script>
-
-    <script type="cartocss/html" id="grat-styles">
-        #na_grat_clipped{ line-width: 1.5; line-color: #c4cccb; line-opacity: 0.16; }
-    </script>
-
-
-
-    <script>
-        ///create an object and assign it to a variable
-        var map = L.map('map', {
-            center: [-14.8, 4],
-            //center: [40, -104], //center map (WGS84)
-            zoom: 10 //zoom level
-        });
+    <!--    For grids, you need parent class "grid" and child class "col"-->
+    <div class='grid'>
+        <!--parent class grid-->
+        <div class='col col--12 col--3-ml p12 pb6 viewport-third viewport-full-ml'>
+            <!--child class col-->
+            <div class='h-full scroll-auto'>
+                <!--mb6 is bottom-margin of 6-->
+                <h1 class='txt-headline mb6'>Title here</h1>
+                <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                <h2 class='txt-xl mt18 mb12'>subheading</h2>
+                <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                <footer class='mt12 bg-gray-faint txt-s'>
+                    <ul>
+                        <p>
+                            <li>Explore the raw <a class='link' href='#'>data</a></li>
+                            <li>Map authored by <a class='link' href='#'>Ptolemy</a></li>
+                        </p>
+                    </ul>
+                </footer>
+            </div>
+        </div>
 
 
-        var sourceObject = {
-            user_name: 'sophia58',
-            type: 'carto',
-            sublayers: [{
-                    sql: "SELECT ST_Transform(the_geom, 2163) AS the_geom_webmercator, cartodb_id FROM na_grat_clipped_1",
-                    cartocss: $("#grat-styles").text()
-                }, {
-                    sql: "SELECT ST_Transform(the_geom, 2163) AS the_geom_webmercator, cartodb_id FROM na_land_clipped_1",
-                    cartocss: $("#land-styles").text()
-                },
-                {
-                    sql: "SELECT ST_Transform(the_geom, 2163) AS the_geom_webmercator, cartodb_id, income2017 FROM joined_tract_and_incomedata WHERE countyfp IN ($escape_0$201$escape_0$)",
-                    cartocss: $("#tract-styles").text()
+        <!--        Add slider and legend-->
+        <div class='col col--12 col--9-ml h180 h-full-ml'>
+            <div id="map" class='viewport-twothirds viewport-full-ml'></div>
+
+
+
+            <div id="map"></div>
+
+            <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+
+            <!--Create CARTOCSS rules to style map as a script then reference within source object    -->
+
+            <script type="cartocss/html" id="tract-styles">
+                #layer { polygon-fill: ramp([income2017], (#ffffb2, #fecc5c, #fd8d3c, #f03b20, #bd0026), quantiles); line-width: 1; line-color: #FFF; line-opacity: 0.5; }
+            </script>
+
+
+            <script type="cartocss/html" id="land-styles">
+
+                #na_land_clipped_1['mapnik::geometry_type'=1] { marker-width: 7; marker-fill: #FFB927; marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; } #na_land_clipped_1['mapnik::geometry_type'=2] { line-color: #3EBCAE; line-width: 1.5; line-opacity: 1; } #na_land_clipped_1['mapnik::geometry_type'=3] { polygon-fill: #374C70; polygon-opacity: 0.9; polygon-gamma: 0.5; line-color: #FFF; line-width: 1; line-opacity: 0.5; line-comp-op: soft-light; }
+            </script>
+
+            <script type="cartocss/html" id="grat-styles">
+                #na_grat_clipped{ line-width: 1.5; line-color: #c4cccb; line-opacity: 0.16; }
+            </script>
+
+
+
+            <script>
+                ///create an object and assign it to a variable
+                var map = L.map('map', {
+                    center: [-14.8, 4],
+                    //center: [40, -104], //center map (WGS84)
+                    zoom: 10 //zoom level
+                });
+
+
+                var sourceObject = {
+                    user_name: 'sophia58',
+                    type: 'carto',
+                    sublayers: [{
+                            sql: "SELECT ST_Transform(the_geom, 2163) AS the_geom_webmercator, cartodb_id FROM na_grat_clipped_1",
+                            cartocss: $("#grat-styles").text()
+                        }, {
+                            sql: "SELECT ST_Transform(the_geom, 2163) AS the_geom_webmercator, cartodb_id FROM na_land_clipped_1",
+                            cartocss: $("#land-styles").text()
+                        },
+                        {
+                            sql: "SELECT ST_Transform(the_geom, 2163) AS the_geom_webmercator, cartodb_id, income2017 FROM joined_tract_and_incomedata WHERE countyfp IN ($escape_0$201$escape_0$)",
+                            cartocss: $("#tract-styles").text()
+                        }
+                    ]
                 }
-            ]
-        }
 
-        cartodb.createLayer(map, sourceObject).addTo(map);
-    </script>
+                cartodb.createLayer(map, sourceObject).addTo(map);
+            </script>
 </body>
 
 </html>
