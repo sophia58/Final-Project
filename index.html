@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>673 Module 07 Carto Starter Template</title>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    <!--    Carto style sheet-->
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    <link href='https://api.mapbox.com/mapbox-assembly/v0.8.0/assembly.min.css' rel='stylesheet'>
+    <script async defer src='https://api.mapbox.com/mapbox-assembly/v0.8.0/assembly.js'></script>
+
+    <style>
+        html,
+        body,
+        #map {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div id="map"></div>
+
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+
+    <!--Create CARTOCSS rules to style map as a script then reference within source object    -->
+
+    <script type="cartocss/html" id="tract-styles">
+        #layer { polygon-fill: ramp([income2017], (#ffffb2, #fecc5c, #fd8d3c, #f03b20, #bd0026), quantiles); line-width: 1; line-color: #FFF; line-opacity: 0.5; }
+    </script>
+
+
+    <script type="cartocss/html" id="land-styles">
+
+        #na_land_clipped_1['mapnik::geometry_type'=1] { marker-width: 7; marker-fill: #FFB927; marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; } #na_land_clipped_1['mapnik::geometry_type'=2] { line-color: #3EBCAE; line-width: 1.5; line-opacity: 1; } #na_land_clipped_1['mapnik::geometry_type'=3] { polygon-fill: #374C70; polygon-opacity: 0.9; polygon-gamma: 0.5; line-color: #FFF; line-width: 1; line-opacity: 0.5; line-comp-op: soft-light; }
+    </script>
+
+    <script type="cartocss/html" id="grat-styles">
+        #na_grat_clipped{ line-width: 1.5; line-color: #c4cccb; line-opacity: 0.16; }
+    </script>
+
+
+
+    <script>
+        ///create an object and assign it to a variable
+        var map = L.map('map', {
+            center: [-14.8, 4],
+            //center: [40, -104], //center map (WGS84)
+            zoom: 10 //zoom level
+        });
+
+
+        var sourceObject = {
+            user_name: 'sophia58',
+            type: 'carto',
+            sublayers: [{
+                    sql: "SELECT ST_Transform(the_geom, 2163) AS the_geom_webmercator, cartodb_id FROM na_grat_clipped_1",
+                    cartocss: $("#grat-styles").text()
+                }, {
+                    sql: "SELECT ST_Transform(the_geom, 2163) AS the_geom_webmercator, cartodb_id FROM na_land_clipped_1",
+                    cartocss: $("#land-styles").text()
+                },
+                {
+                    sql: "SELECT ST_Transform(the_geom, 2163) AS the_geom_webmercator, cartodb_id, income2017 FROM joined_tract_and_incomedata WHERE countyfp IN ($escape_0$201$escape_0$)",
+                    cartocss: $("#tract-styles").text()
+                }
+            ]
+        }
+
+        cartodb.createLayer(map, sourceObject).addTo(map);
+    </script>
+</body>
+
+</html>
