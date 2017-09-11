@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>673 Module 07 Carto Starter Template</title>
+    <title>Harris County, TX Rainfall Accumulation</title>
     <meta charset='utf-8'>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -20,7 +20,16 @@
             padding: 0;
             margin: 0;
         }
-
+        
+        h1 {
+            font-size: 150%;
+            text-align: center;
+        }
+        
+        p {
+            font-size: 140%;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -33,15 +42,17 @@
             <!--child class col-->
             <div class='h-full scroll-auto'>
                 <!--mb6 is bottom-margin of 6-->
-                <h1 class='txt-headline mb6'>Harris County</h1>
+                <h1 class='txt-headline mb6'>Harris County, TX Rainfall Accumulation</h1>
                 <p>Info about this map goes here </p>
-                <h2 class='txt-xl mt18 mb12'>subheading</h2>
-                <p>Additional info goes here</p>
+                <h2 class='txt-xl mt18 mb12'>About the Data</h2>
+                <p>Rainfall accumulation totals shown here are from a period of 3 days in Harvey County, Texas.</p>
                 <footer class='mt12 bg-gray-faint txt-s'>
                     <ul>
                         <p>
-                            <li>Explore the raw <a class='link' href='#'>data</a></li>
-                            <li>Map authored by <a class='link' href='#'>Ptolemy</a></li>
+                            <li>Explore the raw <a class='link' href='#'>data</a> </li>
+                            <li>Rainfall data <a class='link' href='https://nwschat.weather.gov/p.php?pid=201708290105-KHGX-NOUS44-PNSHGX'>source</a></li>
+
+                            <li>Map authored by <a class='link' href='#'>Sophia LeBlanc</a></li>
                         </p>
                     </ul>
                 </footer>
@@ -75,37 +86,45 @@
                 #na_grat_clipped{ line-width: 1.5; line-color: #c4cccb; line-opacity: 0.16; }
             </script>
 
+            <script type="cartocss/html" id="rain-styles">
+                #layer{ marker-width: 30.5; marker-fill: ramp([numofinches], (#d1eeea, #96d0d1, #68abb8, #45829b, #2a5674), quantiles); marker-fill-opacity: 1; marker-allow-overlap: true; marker-line-width: 1; marker-line-color: #FFF; marker-line-opacity: 1; }
+            </script>
 
 
             <script>
                 ///create an object and assign it to a variable
                 var map = L.map('map', {
-                    center: [-14.8, 4],
-                    //center: [40, -104], //center map (WGS84)
+                    center: [29.842, -95.393], //center map (WGS84)
                     zoom: 10 //zoom level
                 });
+
+
+                // request tiles and add to map
+                var CartoDB_Positron = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19
+                }).addTo(map);
 
 
                 var sourceObject = {
                     user_name: 'sophia58',
                     type: 'carto',
                     sublayers: [{
-                            sql: "SELECT ST_Transform(the_geom, 2163) AS the_geom_webmercator, cartodb_id FROM na_grat_clipped_1",
-                            cartocss: $("#grat-styles").text()
-                        }, {
-                            sql: "SELECT ST_Transform(the_geom, 2163) AS the_geom_webmercator, cartodb_id FROM na_land_clipped_1",
-                            cartocss: $("#land-styles").text()
+                            sql: "SELECT * FROM joined_tract_and_incomedata WHERE countyfp IN ($escape_0$201$escape_0$)",
+                            cartocss: $("#tract-styles").text()
                         },
                         {
-                            sql: "SELECT ST_Transform(the_geom, 2163) AS the_geom_webmercator, cartodb_id, income2017 FROM joined_tract_and_incomedata WHERE countyfp IN ($escape_0$201$escape_0$)",
-                            cartocss: $("#tract-styles").text()
-                        }
+                            sql: "SELECT * FROM table_3_day_rain_totals",
+                            cartocss: $("#rain-styles").text()
+                        },
                     ]
                 }
 
                 cartodb.createLayer(map, sourceObject).addTo(map);
-
             </script>
+
+
 </body>
 
 </html>
