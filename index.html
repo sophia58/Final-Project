@@ -2,184 +2,105 @@
 <html>
 
 <head>
-    <title>Harris County, TX Rainfall Accumulation</title>
-    <meta charset='utf-8'>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset=utf-8 />
+    <title>Kenya Primary School Education Enroollments</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
-    <!--    Carto style sheet-->
-    <link rel="stylesheet" href="https://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
-    <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
     <link href='https://api.mapbox.com/mapbox-assembly/v0.8.0/assembly.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
-    <script async defer src='https://api.mapbox.com/mapbox-assembly/v0.8.0/assembly.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+    <link href='css/styles.css' rel='stylesheet' />
 
+    <!--    add css styling for legend-->
     <style>
-        html,
-        body,
-        #map {
-            height: 100%;
-            padding: 0;
-            margin: 0;
+        .legend-large,
+        .legend-small {
+            border-radius: 50%;
         }
         
-        h1 {
-            font-size: 150%;
-            text-align: center;
+        hr.small,
+        hr.large {
+            width: 83px;
+            position: absolute;
+            top: -8px;
+            left: 55px;
+            border: 1px solid #ccc;
+            /* overwrite assembly.css rule */
+            margin-top: 8px;
+            /* overwrite assembly.css rule */
         }
         
-        p {
-            font-size: 140%;
-            text-align: center;
+        .boys {
+            color: #6E77B0;
         }
         
-        .quartile {
-            text-align: right;
+        .girls {
+            color: #D96D02;
         }
+
     </style>
+
 </head>
 
 <body>
 
-    <script src="https://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
-
-    <!--    For grids, you need parent class "grid" and child class "col"-->
     <div class='grid'>
-        <!--parent class grid-->
         <div class='col col--12 col--3-ml p12 pb6 viewport-third viewport-full-ml'>
-            <!--child class col-->
             <div class='h-full scroll-auto'>
-                <!--mb6 is bottom-margin of 6-->
-                <h1 class='txt-h1'>Rainfall Accumulation in Harris County, Texas</h1><br>
-                <h2 class='txt-h2'>
-                    Hurricane Harvey made landfall in Texas as a Category 4 hurricane in August 2017. The strong winds and high floodwaters caused by the hurricane displaced tens of thousands of people as well as caused severe economic losses. <br><br> This map is of Harris County, Texas, which was hard hit by Hurricane Harvey. The symbolized polygons is the 2017 estimated median family income by census tract overlayed by the total amount of rainfall that fell from August 25-29, 2017.
-                </h2> <br><br>
-
-
-                <footer class='txt-h3'>
+                <h1 class='txt-headline mb6'>Kenya Primary School Education Enrollments</h1>
+                <p>The following data shows education enrollments for each county in Kenya. The data is separated by two groups: girls vs boys - from Grades 1 through 8.</p>
+                <h2 class='txt-xl mt18 mb12'>How to Use This Map</h2>
+                <p>Use the slider to view totals from Grades 1 to 8. You can hover over each circle marker to get information on the county, number of boys vs girls enrollment for the year, and to view a trend for each group from Grades 1 to 8.</p>
+                <footer class='mt12 bg-gray-faint txt-s'>
                     <ul>
-                        <p>
-
-                            <li><b>Source Data:</b> <br> Harris County, TX Income <a class='link' href='https://www.ffiec.gov/Census/default.aspx'>Estimates</a> </li>
-                            <!--                            <li>Rainfall data <a class='link' href='https://nwschat.weather.gov/p.php?pid=201708290105-KHGX-NOUS44-PNSHGX'>source</a></li>-->
-
-                            <li>Rainfall data <a class='link' href='https://www.harriscountyfws.org/'>source</a></li>
-
-                            <li>Map authored by <a class='link' href='https://github.com/sophia58'>Sophia LeBlanc</a></li>
+                        <li>Explore the raw <a class='link' href='http://icta-kenyaopendata.opendata.arcgis.com/datasets/national-boys-and-girls-enrollments-per-class-for-primary-school-education/data'>Data</a></li>
+                        <li>Map authored by M. Sophia LeBlanc</li>
                         </p>
-                    </ul>
                 </footer>
             </div>
         </div>
-
-
-        <!--                Add slider and legend-->
         <div class='col col--12 col--9-ml h180 h-full-ml'>
             <div id="map" class='viewport-twothirds viewport-full-ml'></div>
 
-
-
-            <div class='cartodb-legend density'>
-                <ul>
-                    <li>
-                        Est. 2017 Household Income ($)
-                    </li>
-                    <li class="graph leg" style="border-radius: 0; border:none">
-                        <div class="colors">
-                            <div class="quartile" style="background-color:#fbe6c5"></div>
-                            <div class="quartile" style="background-color:#f2a28a"></div>
-                            <div class="quartile" style="background-color:#dc7176"></div>
-                            <div class="quartile" style="background-color:#b24b65"></div>
-                            <div class="quartile" style="background-color:#70284a"></div>
-                        </div>
-
-                        <div class="colors" style="font-weight:bold; text-align: right">
-                            <div class="quartile" style="padding-top: 5px">52k</div>
-                            <div class="quartile" style="padding-top: 5px">100k</div>
-                            <div class="quartile" style="padding-top: 5px">150k</div>
-                            <div class="quartile" style="padding-top: 5px">210k</div>
-                            <div class="quartile" style="padding-top: 5px">260k</div>
-                        </div>
-                    </li>
-
-                    <!--
-                    <div class='cartodb-legend bubble'>
-                         setting a margin-bottom value is necessary to keep the two divs from overlapping 
-                        <ul>
-                            <li>
-                                125
-                            </li>
-                            <li style="background: rgb(184, 22, 9) none repeat scroll 0% 0%;" class="graph">
-                                <div class="bubbles"></div>
-                            </li>
-                            <li>
-                                1300
-                            </li>
-                        </ul>
-                    </div>
--->
-
-                </ul>
+            <!-- ui slider -->
+            <div id='slider' class='range w240 bg-white border border--gray-light round-ml p12'>
+                <input type='range' min="1" , max="8" , value="1" , step="1" class="slider" />
             </div>
 
-            <div id="map"></div>
-
-            <!--Create CARTOCSS rules to style map as a script then reference within source object    -->
-
-            <script type="cartocss/html" id="tract-styles">
-                #layer { polygon-fill: ramp([income2017], (#fbe6c5, #f2a28a, #dc7176, #b24b65, #70284a), quantiles); line-width: 1; line-color: #FFF; line-opacity: 0.5; }
-            </script>
-
-
-            <script type="cartocss/html" id="land-styles">
-
-                #na_land_clipped_1['mapnik::geometry_type'=1] { marker-width: 7; marker-fill: #FFB927; marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; } #na_land_clipped_1['mapnik::geometry_type'=2] { line-color: #3EBCAE; line-width: 1.5; line-opacity: 1; } #na_land_clipped_1['mapnik::geometry_type'=3] { polygon-fill: #374C70; polygon-opacity: 0.9; polygon-gamma: 0.5; line-color: #FFF; line-width: 1; line-opacity: 0.5; line-comp-op: soft-light; }
-            </script>
-
-            <script type="cartocss/html" id="grat-styles">
-                #na_grat_clipped{ line-width: 1.5; line-color: #c4cccb; line-opacity: 0.16; }
-            </script>
-
-            <script type="cartocss/html" id="rain-styles">
-                #layer{ marker-width: ramp([total], range(10, 60), jenks(5)); marker-fill: ramp([total], (#E4F1E1, #9CCDC1, #63A6A0, #337F7F, #0D585F), quantiles); marker-fill-opacity: 0.5; marker-allow-overlap: true; marker-line-width: 0.5; marker-line-color: #cfb9cd; marker-line-opacity: 1; }
-            </script>
+            <!-- legend -->
+            <div id='legend' class='bg-white round-ml p18'>
+                <h3 class='txt-bold mb12 w-full mx-auto'>Legend</h3>
+                <div class='legend-circles relative w180 wmax180'>
+                    <div class="legend-large border border--gray-light absolute"></div>
+                    <div class="legend-small border border--gray-light absolute"></div>
+                    <div class="legend-large-label txt-m absolute"></div>
+                    <div class="legend-small-label txt-m absolute"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-            <script>
-                ///create an object and assign it to a variable
-                var map = L.map('map', {
-                    center: [29.842, -95.393], //center map (WGS84)
-                    zoom: 10, //zoom level
-
-                });
-
-
-                // request tiles and add to map
-                var CartoDB_Positron = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://cartodb.com/attributions">CartoDB</a>',
-                    subdomains: 'abcd',
-                    maxZoom: 19
-                }).addTo(map);
+    <!--
+        custom info window - has a class of none- window will display when user hovers over feature. Will also add a sparkline chart
+    <div id='info' class='py6 px12 bg-white border border--gray-light round absolute wmax200 none'>
+        <p>County: <span></span></p>
+        <p class='girls'>Girls <span></span>: <span class='txt-l txt-bold'></span></p>
+        <p class='boys'>Boys <span></span>: <span class='txt-l txt-bold'></span></p>
+        <hr class='txt-hr'>
+        <p class='my6'>Trend: Grades 1 &ndash; 8</p>
+        <p class='mb6'><span class='girlspark'></span></p>
+        <p><span class='boyspark'></span></p>
+    </div>
+-->
 
 
-                var sourceObject = {
-                    user_name: 'sophia58',
-                    type: 'carto',
-                    sublayers: [{
-                            sql: "SELECT * FROM tract_48201_and_incomedata",
-                            cartocss: $("#tract-styles").text()
-                        },
-                        {
-                            sql: "SELECT * FROM daily_rainfall_totals",
-                            cartocss: $("#rain-styles").text()
-                        },
-                    ]
-                }
 
-                cartodb.createLayer(map, sourceObject).addTo(map);
-            </script>
-
-
+    <script async defer src="https://api.mapbox.com/mapbox-assembly/v0.8.0/assembly.js"></script>
+    <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+    <script src='https://code.jquery.com/jquery-3.1.1.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
+    <script src='js/app.js'></script>
 
 </body>
 
