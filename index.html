@@ -9,7 +9,9 @@
 
     <!--    Carto style sheet-->
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
     <link href='https://api.mapbox.com/mapbox-assembly/v0.8.0/assembly.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
     <script async defer src='https://api.mapbox.com/mapbox-assembly/v0.8.0/assembly.js'></script>
 
     <style>
@@ -30,10 +32,16 @@
             font-size: 140%;
             text-align: center;
         }
+        
+        .quartile {
+            text-align: right;
+        }
     </style>
 </head>
 
 <body>
+
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 
     <!--    For grids, you need parent class "grid" and child class "col"-->
     <div class='grid'>
@@ -42,18 +50,22 @@
             <!--child class col-->
             <div class='h-full scroll-auto'>
                 <!--mb6 is bottom-margin of 6-->
-                <h1 class='txt-headline mb6'>Harris County, TX Rainfall Accumulation</h1>
-                <p>Hurricane Harvey made landfall in the US in August 2017. </p>
-                <h2 class='txt-xl mt18 mb12'>About the Data</h2>
-                <p>Income data shown is the 2017 Est. Tract Median Family Income. </p>
-                <p>Rainfall accumulation totals shown here are from a period of 3 days in Harvey County, Texas.</p>
-                <footer class='mt12 bg-gray-faint txt-s'>
+                <h1 class='txt-h1'>Rainfall Accumulation in Harris County, Texas</h1><br>
+                <h2 class='txt-h2'>
+                    Hurricane Harvey made landfall in Texas as a Category 4 hurricane in August 2017. The strong winds and high floodwaters caused by the hurricane displaced tens of thousands of people as well as caused severe economic losses. <br><br> This map is of Harris County, Texas, which was hard hit by Hurricane Harvey. The symbolized polygons is the 2017 estimated median family income by census tract overlayed by the total amount of rainfall that fell from August 25-29, 2017.
+                </h2> <br><br>
+
+
+                <footer class='txt-h3'>
                     <ul>
                         <p>
-                            <li>Harris County, TX Income <a class='link' href='https://www.ffiec.gov/Census/default.aspx'>Estimates</a> </li>
-                            <li>Rainfall data <a class='link' href='https://nwschat.weather.gov/p.php?pid=201708290105-KHGX-NOUS44-PNSHGX'>source</a></li>
 
-                            <li>Map authored by <a class='link' href='#'>Sophia LeBlanc</a></li>
+                            <li><b>Source Data:</b> <br> Harris County, TX Income <a class='link' href='https://www.ffiec.gov/Census/default.aspx'>Estimates</a> </li>
+                            <!--                            <li>Rainfall data <a class='link' href='https://nwschat.weather.gov/p.php?pid=201708290105-KHGX-NOUS44-PNSHGX'>source</a></li>-->
+
+                            <li>Rainfall data <a class='link' href='https://www.harriscountyfws.org/'>source</a></li>
+
+                            <li>Map authored by <a class='link' href='https://github.com/sophia58'>Sophia LeBlanc</a></li>
                         </p>
                     </ul>
                 </footer>
@@ -61,20 +73,61 @@
         </div>
 
 
-        <!--        Add slider and legend-->
+        <!--                Add slider and legend-->
         <div class='col col--12 col--9-ml h180 h-full-ml'>
             <div id="map" class='viewport-twothirds viewport-full-ml'></div>
 
 
 
-            <div id="map"></div>
+            <div class='cartodb-legend density'>
+                <ul>
+                    <li>
+                        Est. 2017 Household Income ($)
+                    </li>
+                    <li class="graph leg" style="border-radius: 0; border:none">
+                        <div class="colors">
+                            <div class="quartile" style="background-color:#fbe6c5"></div>
+                            <div class="quartile" style="background-color:#f2a28a"></div>
+                            <div class="quartile" style="background-color:#dc7176"></div>
+                            <div class="quartile" style="background-color:#b24b65"></div>
+                            <div class="quartile" style="background-color:#70284a"></div>
+                        </div>
 
-            <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+                        <div class="colors" style="font-weight:bold; text-align: right">
+                            <div class="quartile" style="padding-top: 5px">52k</div>
+                            <div class="quartile" style="padding-top: 5px">100k</div>
+                            <div class="quartile" style="padding-top: 5px">150k</div>
+                            <div class="quartile" style="padding-top: 5px">210k</div>
+                            <div class="quartile" style="padding-top: 5px">260k</div>
+                        </div>
+                    </li>
+
+                    <!--
+                    <div class='cartodb-legend bubble'>
+                         setting a margin-bottom value is necessary to keep the two divs from overlapping 
+                        <ul>
+                            <li>
+                                125
+                            </li>
+                            <li style="background: rgb(184, 22, 9) none repeat scroll 0% 0%;" class="graph">
+                                <div class="bubbles"></div>
+                            </li>
+                            <li>
+                                1300
+                            </li>
+                        </ul>
+                    </div>
+-->
+
+                </ul>
+            </div>
+
+            <div id="map"></div>
 
             <!--Create CARTOCSS rules to style map as a script then reference within source object    -->
 
             <script type="cartocss/html" id="tract-styles">
-                #layer { polygon-fill: ramp([income2017], (#ffffb2, #fecc5c, #fd8d3c, #f03b20, #bd0026), quantiles); line-width: 1; line-color: #FFF; line-opacity: 0.5; }
+                #layer { polygon-fill: ramp([income2017], (#fbe6c5, #f2a28a, #dc7176, #b24b65, #70284a), quantiles); line-width: 1; line-color: #FFF; line-opacity: 0.5; }
             </script>
 
 
@@ -88,7 +141,7 @@
             </script>
 
             <script type="cartocss/html" id="rain-styles">
-                #layer{ marker-width: 20.5; marker-fill: ramp([numofinches], (#d1eeea, #96d0d1, #68abb8, #45829b, #2a5674), quantiles); marker-fill-opacity: 1; marker-allow-overlap: true; marker-line-width: 1; marker-line-color: #FFF; marker-line-opacity: 1; }
+                #layer{ marker-width: ramp([total], range(10, 60), jenks(5)); marker-fill: ramp([total], (#E4F1E1, #9CCDC1, #63A6A0, #337F7F, #0D585F), quantiles); marker-fill-opacity: 0.5; marker-allow-overlap: true; marker-line-width: 0.5; marker-line-color: #cfb9cd; marker-line-opacity: 1; }
             </script>
 
 
@@ -96,7 +149,8 @@
                 ///create an object and assign it to a variable
                 var map = L.map('map', {
                     center: [29.842, -95.393], //center map (WGS84)
-                    zoom: 10 //zoom level
+                    zoom: 10, //zoom level
+
                 });
 
 
@@ -116,7 +170,7 @@
                             cartocss: $("#tract-styles").text()
                         },
                         {
-                            sql: "SELECT * FROM table_3_day_rain_totals",
+                            sql: "SELECT * FROM daily_rainfall_totals",
                             cartocss: $("#rain-styles").text()
                         },
                     ]
@@ -124,6 +178,7 @@
 
                 cartodb.createLayer(map, sourceObject).addTo(map);
             </script>
+
 
 
 </body>
