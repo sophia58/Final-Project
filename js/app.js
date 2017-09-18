@@ -24,20 +24,18 @@
     });
 
     function processData(tract) {
-
         var rates = [];
         //console.log('tract: ', tract);
         tract.features.map(function (tractData) {
-
             for (var prop in tractData.properties) {
-
-                //                        if ($.isNumeric(county.properties[prop]) && prop != 'GEOID' && prop != 'GEOID') {
-
                 rates.push(Number(tractData.properties[prop]));
-                console.log('rates: ', rates);
-                //                        }
+                // console.log('rates: ', rates);           
             }
         });
+
+        var breaks = chroma.limits(rates, 'q', 7);
+        var colorize = chroma.scale(chroma.brewer.OrRd).classes(breaks).mode('lab');
+        drawMap(tract, colorize);
     }
 
 
