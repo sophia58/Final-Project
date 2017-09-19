@@ -13,6 +13,8 @@
     });
 
 
+
+
     //Load in tract and income data
     $.getJSON("data/tract_48201_and_incomedata.geojson", function (tract) {
         processData(tract);
@@ -23,6 +25,8 @@
         });
 
     });
+
+
 
 
     //options for creating circleMarkers from GeoJson point data
@@ -55,6 +59,9 @@
             }
         });
 
+
+
+
         // var breaks = chroma.limits(rates, 'q', 5);
         // var colorize = chroma.scale(chroma.brewer.OrRd).classes(breaks).mode('lab');
         var colorize = chroma.scale('OrRd').classes([0, 1, 50000, 100000, 150000, 210000, 260000]);
@@ -79,7 +86,6 @@
         updateMap(dataLayer, colorize, '0');
 
     }
-
 
 
     //Dynamic update map function
@@ -108,6 +114,44 @@
         });
     }
 
+
+    //drawLegend
+    function drawLegend(data) {
+        // create Leaflet control for the legend
+        var legend = L.control({
+            position: 'bottomleft'
+        });
+        // when added to the map
+        legend.onAdd = function (map) {
+
+            // select the element with id of 'legend'
+            var div = L.DomUtil.get("legend");
+
+            // disable the mouse events
+            L.DomEvent.disableScrollPropagation(div);
+            L.DomEvent.disableClickPropagation(div);
+
+            // add legend to the control
+            return div;
+
+        }
+
+        //for each feature you iterate through and push numeric values for each grade level into an array
+        var dataValues = [];
+        data.features.map(function (school) {
+            for (var grade in school.properties) {
+                var attribute = school.properties[grade];
+                if (Number(attribute)) {
+                    dataValues.push(attribute);
+                    //console.log(attribute);
+                }
+            }
+        });
+    }
+
+
+
+
     function drawPoints(rainfall) {
         var rainLayer = L.geoJson(rainfall, options);
         resizeCircles(rainLayer);
@@ -125,11 +169,29 @@
     function resizeCircles(rainfall) {
         rainfall.eachLayer(function (layer) {
             var radius = calcRadius(Number(layer.feature.properties.total));
-            //console.log(layer.feature.properties.total);
-            //console.log('radius', radius);
             layer.setRadius(radius);
         }).addTo(map);
 
     }
+
+    //
+    //    function onEachFeature(feature, layer) {
+    //        layer.on({
+    //            mouseover: function () {
+    //                layer.setStyle({
+    //                    color: "yellow",
+    //                    weight: 3
+    //                });
+    //            },
+    //            mouseout: function () {
+    //                layer.setStyle({
+    //                    color: "whitesmoke",
+    //                    weight: 1
+    //                });
+    //            }
+    //        });
+    //    }
+
+
 
 })();
