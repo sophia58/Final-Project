@@ -5,11 +5,11 @@
 
     // create the Leaflet map using mapbox.light tiles
     var map = L.mapbox.map('map', 'mapbox.light', {
-        zoomSnap: .1,
+        //zoomSnap: .1,
         center: [29.842, -95.393],
-        zoom: 7,
+        zoom: 10,
         minZoom: 6,
-        maxZoom: 9
+        maxZoom: 14
         //        maxBounds: L.latLngBounds([-6.22, 27.72], [5.76, 47.83])
     });
 
@@ -17,9 +17,6 @@
 
     //Load in tract and income data
     $.getJSON("data/tract_48201_and_incomedata.geojson", function (tract) {
-
-        // counties is accessible here
-        //console.log(tract);
         processData(tract);
 
     });
@@ -29,22 +26,28 @@
         //console.log('tract: ', tract);
         tract.features.map(function (tractData) {
             for (var prop in tractData.properties) {
+                if ($.isNumeric(tractData.properties[prop]) && prop === 'income2017') {
+                    console.log(tractData.properties[prop]);
+
+                    rates.push(Number(tractData.properties[prop]));
+                    //   console.log('rates: ', rates);
+                }
+
+
                 rates.push(Number(tractData.properties[prop]));
-                // console.log('rates: ', rates);
             }
         });
 
-        var breaks = chroma.limits(rates, 'q', 7);
-        var colorize = chroma.scale(chroma.brewer.OrRd).classes(breaks).mode('lab');
+        // var breaks = chroma.limits(rates, 'q', 5);
+        // var colorize = chroma.scale(chroma.brewer.OrRd).classes(breaks).mode('lab');
+        var colorize = chroma.scale('OrRd').classes([0, 1, 50000, 100000, 150000, 210000, 260000]);
 
         drawMap(tract, colorize);
-        //        var color = colorize(20);
-        //        console.log(color); // a {_rgb: Array[4]}
+
     }
 
 
     function drawMap(tract, colorize) {
-        console.log(colorize);
 
         // create Leaflet object with geometry data and add to map
         var dataLayer = L.geoJson(tract, {
@@ -57,7 +60,7 @@
                 };
             }
         }).addTo(map);
-        updateMap(dataLayer, colorize, '80000');
+        updateMap(dataLayer, colorize, '0');
 
     }
 
