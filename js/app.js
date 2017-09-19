@@ -13,7 +13,7 @@
         //        maxBounds: L.latLngBounds([-6.22, 27.72], [5.76, 47.83])
     });
 
-    var colorize;
+    // var colorize;
 
     //Load in tract and income data
     $.getJSON("data/tract_48201_and_incomedata.geojson", function (tract) {
@@ -30,7 +30,7 @@
         tract.features.map(function (tractData) {
             for (var prop in tractData.properties) {
                 rates.push(Number(tractData.properties[prop]));
-                // console.log('rates: ', rates);           
+                // console.log('rates: ', rates);
             }
         });
 
@@ -38,8 +38,8 @@
         var colorize = chroma.scale(chroma.brewer.OrRd).classes(breaks).mode('lab');
 
         drawMap(tract, colorize);
-        var color = colorize(20);
-        console.log(color); // a {_rgb: Array[4]}
+        //        var color = colorize(20);
+        //        console.log(color); // a {_rgb: Array[4]}
     }
 
 
@@ -57,34 +57,28 @@
                 };
             }
         }).addTo(map);
-        updateMap(dataLayer, colorize, );
+        updateMap(dataLayer, colorize, '80000');
 
     }
 
-    //  updateMap(dataLayer, colorize, 0);
-
-
-
-
 
     //Dynamic update map function
-    function updateMap(dataLayer, colorize, income2017) {
+    function updateMap(dataLayer, colorize, income) {
 
-        //  loop through each county layer
+        //  loop through each tract layer
         dataLayer.eachLayer(function (layer) {
 
             // shortcut reference for layer properties
             var props = layer.feature.properties;
-            console.log(props[income2017]);
+            // console.log(layer.feature.properties.income2017);
 
             // set the fill color of layer based on its normalized data value using break values in colorize
             layer.setStyle({
-                fillColor: colorize(Number(props[income2017]))
+                fillColor: colorize(Number(props.income2017))
             });
 
             // assemble string sequence of info for tooltip
-            var tooltipInfo = "<b>" + props["NAME"] + " </b></br>" + props[income2017] +
-                "% Unemployment Rate"
+            var tooltipInfo = "<b>" + "Household Income: " + " </b></br>" + props.income2017
 
             // bind a tooltip to layer with county-specific information
             layer.bindTooltip(tooltipInfo, {
