@@ -13,12 +13,13 @@
         //        maxBounds: L.latLngBounds([-6.22, 27.72], [5.76, 47.83])
     });
 
+    var colorize;
+
     //Load in tract and income data
     $.getJSON("data/tract_48201_and_incomedata.geojson", function (tract) {
 
         // counties is accessible here
-        console.log(tract);
-        drawMap(tract);
+        //console.log(tract);
         processData(tract);
 
     });
@@ -35,13 +36,15 @@
 
         var breaks = chroma.limits(rates, 'q', 7);
         var colorize = chroma.scale(chroma.brewer.OrRd).classes(breaks).mode('lab');
+
         drawMap(tract, colorize);
+        var color = colorize(20);
+        console.log(color); // a {_rgb: Array[4]}
     }
 
 
-
-
     function drawMap(tract, colorize) {
+        console.log(colorize);
 
         // create Leaflet object with geometry data and add to map
         var dataLayer = L.geoJson(tract, {
@@ -54,25 +57,33 @@
                 };
             }
         }).addTo(map);
+        updateMap(dataLayer, colorize, );
+
     }
+
+    //  updateMap(dataLayer, colorize, 0);
+
+
+
 
 
     //Dynamic update map function
-    function updateMap(dataLayer, colorize, currentYear) {
+    function updateMap(dataLayer, colorize, income2017) {
 
         //  loop through each county layer
         dataLayer.eachLayer(function (layer) {
 
             // shortcut reference for layer properties
             var props = layer.feature.properties;
+            console.log(props[income2017]);
 
             // set the fill color of layer based on its normalized data value using break values in colorize
             layer.setStyle({
-                fillColor: colorize(Number(props[currentYear]))
+                fillColor: colorize(Number(props[income2017]))
             });
 
             // assemble string sequence of info for tooltip
-            var tooltipInfo = "<b>" + props["NAME"] + " </b></br>" + props[currentYear] +
+            var tooltipInfo = "<b>" + props["NAME"] + " </b></br>" + props[income2017] +
                 "% Unemployment Rate"
 
             // bind a tooltip to layer with county-specific information
