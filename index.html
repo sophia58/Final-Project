@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>Kenya Primary School Education Enroollments</title>
+    <title>Hurricane Harvey Rainfall Accumulation</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <link href='https://api.mapbox.com/mapbox-assembly/v0.8.0/assembly.min.css' rel='stylesheet'>
@@ -28,14 +28,6 @@
             margin-top: 8px;
             /* overwrite assembly.css rule */
         }
-        
-        .boys {
-            color: #6E77B0;
-        }
-        
-        .girls {
-            color: #D96D02;
-        }
 
     </style>
 
@@ -46,7 +38,7 @@
     <div class='grid'>
         <div class='col col--12 col--3-ml p12 pb6 viewport-third viewport-full-ml'>
             <div class='h-full scroll-auto'>
-                <h1 class='txt-h1'>Rainfall Accumulation in Harris County, Texas</h1><br>
+                <h1 class='txt-h1'><b>Rainfall Accumulation in Harris County, Texas</b></h1><br>
                 <h2 class='txt-h2'>
                     Hurricane Harvey made landfall in Texas as a Category 4 hurricane in August 2017. The strong winds and high floodwaters caused by the hurricane displaced tens of thousands of people as well as caused severe economic losses. <br><br> This map is of Harris County, Texas, which was hard hit by Hurricane Harvey. The symbolized polygons is the 2017 estimated median family income by census tract overlayed by the total amount of rainfall that fell from August 25-29, 2017.
                 </h2> <br><br>
@@ -66,49 +58,89 @@
             </div>
         </div>
         <div class='col col--12 col--9-ml h180 h-full-ml'>
+
             <div id="map" class='viewport-twothirds viewport-full-ml'></div>
 
-            <!-- ui slider -->
-            <div id='slider' class='range w240 bg-white border border--gray-light round-ml p12'>
-                <input type='range' min="1" , max="8" , value="1" , step="1" class="slider" />
-            </div>
+            <!--
+            <div class='cartodb-legend density'>
+                <ul>
+                    <li>
+                        Est. 2017 Household Income ($)
+                    </li>
+                    <li class="graph leg" style="border-radius: 0; border:none">
+                        <div class="colors">
+                            <div class="quartile" style="background-color:#fbe6c5"></div>
+                            <div class="quartile" style="background-color:#f2a28a"></div>
+                            <div class="quartile" style="background-color:#dc7176"></div>
+                            <div class="quartile" style="background-color:#b24b65"></div>
+                            <div class="quartile" style="background-color:#70284a"></div>
+                        </div>
 
-            <!-- legend -->
-            <div id='legend' class='bg-white round-ml p18'>
-                <h3 class='txt-bold mb12 w-full mx-auto'>Legend</h3>
-                <div class='legend-circles relative w180 wmax180'>
-                    <div class="legend-large border border--gray-light absolute"></div>
-                    <div class="legend-small border border--gray-light absolute"></div>
-                    <div class="legend-large-label txt-m absolute"></div>
-                    <div class="legend-small-label txt-m absolute"></div>
-                </div>
-            </div>
+                        <div class="colors" style="font-weight:bold; text-align: right">
+                            <div class="quartile" style="padding-top: 5px">52k</div>
+                            <div class="quartile" style="padding-top: 5px">100k</div>
+                            <div class="quartile" style="padding-top: 5px">150k</div>
+                            <div class="quartile" style="padding-top: 5px">210k</div>
+                            <div class="quartile" style="padding-top: 5px">260k</div>
+                        </div>
+                    </li>
+-->
+
+            <!--
+                    <div class='cartodb-legend bubble'>
+                         setting a margin-bottom value is necessary to keep the two divs from overlapping 
+                        <ul>
+                            <li>
+                                125
+                            </li>
+                            <li style="background: rgb(184, 22, 9) none repeat scroll 0% 0%;" class="graph">
+                                <div class="bubbles"></div>
+                            </li>
+                            <li>
+                                1300
+                            </li>
+                        </ul>
+                    </div>
+-->
+
+            </ul>
         </div>
-    </div>
 
 
-    <!--
-        custom info window - has a class of none- window will display when user hovers over feature. Will also add a sparkline chart
-    <div id='info' class='py6 px12 bg-white border border--gray-light round absolute wmax200 none'>
-        <p>County: <span></span></p>
-        <p class='girls'>Girls <span></span>: <span class='txt-l txt-bold'></span></p>
-        <p class='boys'>Boys <span></span>: <span class='txt-l txt-bold'></span></p>
-        <hr class='txt-hr'>
-        <p class='my6'>Trend: Grades 1 &ndash; 8</p>
-        <p class='mb6'><span class='girlspark'></span></p>
-        <p><span class='boyspark'></span></p>
-    </div>
+
+
+
+
+
+
+        <!--
+                 legend 
+                <div id='legend' class='bg-white round-ml p18'>
+                    <h3 class='txt-bold mb12 w-full mx-auto'>Legend</h3>
+                    <div class='legend-circles relative w180 wmax180'>
+                        <div class="legend-large border border--gray-light absolute"></div>
+                        <div class="legend-small border border--gray-light absolute"></div>
+                        <div class="legend-large-label txt-m absolute"></div>
+                        <div class="legend-small-label txt-m absolute"></div>
+                    </div>
+                </div>
 -->
 
 
 
-    <script async defer src="https://api.mapbox.com/mapbox-assembly/v0.8.0/assembly.js"></script>
-    <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
-    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.2.1/chroma.min.js"></script>
-    <script src='https://code.jquery.com/jquery-3.1.1.min.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
-    <script src='js/app.js'></script>
+
+        <div id="map"></div>
+
+
+
+        <script async defer src="https://api.mapbox.com/mapbox-assembly/v0.8.0/assembly.js"></script>
+        <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+        <script src="http://d3js.org/d3.v2.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.2.1/chroma.min.js"></script>
+        <script src='https://code.jquery.com/jquery-3.1.1.min.js'></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
+        <script src='js/app.js'></script>
 
 </body>
 
