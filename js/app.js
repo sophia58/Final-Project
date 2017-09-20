@@ -150,8 +150,6 @@
     }
 
 
-
-
     function drawPoints(rainfall) {
         var rainLayer = L.geoJson(rainfall, options);
         resizeCircles(rainLayer);
@@ -174,23 +172,7 @@
 
     }
 
-    //
-    //    function onEachFeature(feature, layer) {
-    //        layer.on({
-    //            mouseover: function () {
-    //                layer.setStyle({
-    //                    color: "yellow",
-    //                    weight: 3
-    //                });
-    //            },
-    //            mouseout: function () {
-    //                layer.setStyle({
-    //                    color: "whitesmoke",
-    //                    weight: 1
-    //                });
-    //            }
-    //        });
-    //    }
+
 
 
 
