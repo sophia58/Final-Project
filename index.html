@@ -22,28 +22,46 @@
         
         #legend {
             position: absolute;
-            bottom: 0;
+            bottom: 100px;
             left: 15px;
-            width: 100px;
-            margin: 20px auto;
+            width: 210px;
+            height: 60px;
+            /*            margin: 20px auto;*/
             padding: 0 15px;
             background: rgba(256, 256, 256, .8);
             border: 1px solid grey;
-            border-radius: 3px;
-        }
-        
-        #legend {
+            border-radius: 1px;
+            white-space: nowrap;
             z-index: 10;
         }
         
-        .legend-large,
-        .legend-small {
-            border-radius: 50%;
+        #legend2 {
+            position: absolute;
+            bottom: 30px;
+            left: 15px;
+            width: 210px;
+            height: 70px;
+            /*            margin: 20px auto;*/
+            padding: 0 15px;
+            background: rgba(256, 256, 256, .8);
+            border: 1px solid grey;
+            border-radius: 1px;
+            white-space: nowrap;
+            z-index: 10;
         }
         
         .boxColor {
             height: 15px;
-            width: 15px;
+            width: 40px;
+            display: inline-block;
+            margin: -10px;
+        }
+        
+        .circleColor {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            border-radius: 50%;
         }
 
     </style>
@@ -80,40 +98,58 @@
 
                 <div id="map">
 
+                    <!--Polygon legend-->
                     <div id="legend">
                         <ul>
-                            <li style="border-radius: 0; border:none">
-                                <div class="colors">
-                                    <div class="boxColor" style="background-color:#FFFFB2"></div>
-                                    <div class="boxColor" style="background-color:#FECC5C"></div>
-                                    <div class="boxColor" style="background-color:#FD8D3C"></div>
-                                    <div class="boxColor" style="background-color:#F03B20"></div>
-                                    <div class="boxColor" style="background-color:#BD0026"></div>
-                                </div>
 
+                            Est. Median Household Income ($)
+                            <div class="colors">
+                                <div class="boxColor" style="background-color:#fee8c8"></div>
+                                <div class="boxColor" style="background-color:#fdd49e"></div>
+                                <div class="boxColor" style="background-color:#fdbb84"></div>
+                                <div class="boxColor" style="background-color:#fc8d59"></div>
+                                <div class="boxColor" style="background-color:#ef6548"></div>
+                                <div class="boxColor" style="background-color:#b40000"></div>
+                                <div class="boxColor" style="background-color:#7f0000"></div>
+                            </div>
 
-                            </li>
+                            <div class="colors" style="font-weight:bold">
+                                <div class="boxColor" style="padding-top: 5px; text-align: left">0k</div>
+                                <div class="boxColor" style="padding-top: 5px"></div>
+                                <div class="boxColor" style="padding-top: 5px"></div>
+                                <div class="boxColor" style="padding-top: 5px"></div>
+                                <div class="boxColor" style="padding-top: 5px"></div>
+                                <div class="boxColor" style="padding-top: 5px"></div>
+                                <div class="boxColor" style="padding-top: 5px; text-align:right">264k</div>
+                            </div>
+                        </ul>
+                    </div>
+                    <!--                    end of Polygon legend-->
+
+                    <!--                    Circle legend-->
+                    <div id="legend2">
+                        <ul>
+
+                            Cumulative Rainfall (inches)
+                            <div class="colors">
+                                <li>
+                                    <div class="circleColor" style="background-color:#a6bddb; opacity: 1"></div>
+                                    <div class="circleColor" style="background-color:#a6bddb; opacity: 1"></div>
+                                    <div class="circleColor" style="background-color:#a6bddb; opacity: 1"></div>
+                                    <div class="circleColor" style="background-color:#a6bddb; opacity: 1"></div>
+
+                                </li>
+                            </div>
                         </ul>
                     </div>
 
 
+
+
+
+
                 </div>
-
-
-
-
-
-
             </div>
-
-
-
-
-
-
-
-
-
         </div>
     </div>
 
