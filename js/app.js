@@ -14,63 +14,21 @@
 
 
 
+    //Load in tract and rainfall data
+    $.when(
+        $.getJSON("data/tract_48201_and_incomedata.geojson"),
+        $.getJSON("data/daily_rainfall_totals.geojson")
+    ).done(function (tract, rainfall) {
+        // console.log("tract: ", tract);
+        // console.log("rain: ", rainfall);
 
-    //Load in tract and income data
-    $.getJSON("data/tract_48201_and_incomedata.geojson", function (tract) {
-        processData(tract);
-
-        //Load in rainfall data
-        $.getJSON("data/daily_rainfall_totals.geojson", function (rainfall) {
-            drawPoints(rainfall);
-        });
+        drawMap(tract, rainfall);
 
     });
 
 
 
-
-    //options for creating circleMarkers from GeoJson point data
-    var options = {
-        pointToLayer: function (feature, ll) {
-            return L.circleMarker(ll, {
-                opacity: 3,
-                weight: 1,
-                fillOpacity: .7,
-                fillColor: '#a6bddb',
-                color: 'grey'
-            })
-        }
-    }
-
-
-    function processData(tract) {
-        var rates = [];
-        //console.log('tract: ', tract);
-        tract.features.map(function (tractData) {
-            for (var prop in tractData.properties) {
-
-                //Only get income2017 data then push into rates array
-                if ($.isNumeric(tractData.properties[prop]) && prop === 'income2017') {
-                    //  console.log(tractData.properties[prop]);
-                    rates.push(Number(tractData.properties[prop]));
-                    //   console.log('rates: ', rates);
-                }
-                rates.push(Number(tractData.properties[prop]));
-            }
-        });
-
-
-
-
-        // var breaks = chroma.limits(rates, 'q', 5);
-        // var colorize = chroma.scale(chroma.brewer.OrRd).classes(breaks).mode('lab');
-        var colorize = chroma.scale('OrRd').classes([0, 1, 50000, 100000, 150000, 210000, 260000]);
-        drawMap(tract, colorize);
-
-    }
-
-
-    function drawMap(tract, colorize) {
+    function drawMap(tract, rainfall) {
 
         // create Leaflet object with geometry data and add to map
         var dataLayer = L.geoJson(tract, {
@@ -83,9 +41,47 @@
                 };
             }
         }).addTo(map);
-        updateMap(dataLayer, colorize, '0');
+
+        // create Leaflet object with geometry data and add to map
+        L.geoJSON(rainfall, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, bubble(rainfall)); //pass rainfall to bubble function to get
+            } // circle options
+        }).addTo(map);
+        // updateMap(dataLayer, colorize, '0');
 
     }
+
+    function bubble(pointData) {
+        var circleOptions = {
+            fillColor: "brown",
+            color: "#000",
+            weight: .8,
+            opacity: 1,
+            fillOpacity: 0.8,
+            radius: 9
+        };
+        return circleOptions;
+    }
+
+
+
+    //options for creating circleMarkers from GeoJson point data
+    var options = {
+        pointToLayer: function (feature, ll) {
+            return L.circleMarker(ll, {
+                opacity: 3,
+                weight: 1,
+                fillOpacity: .7,
+                fillColor: '#a6bddb',
+                color: 'grey'
+
+            })
+        }
+    }
+
+
+
 
 
     //Dynamic update map function
